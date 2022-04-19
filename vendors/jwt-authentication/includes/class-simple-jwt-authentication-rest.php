@@ -95,15 +95,6 @@ class Simple_Jwt_Authentication_Rest {
 
 		register_rest_route(
 			$this->namespace,
-			'token/refresh',
-			array(
-				'methods'  => 'POST',
-				'callback' => array( $this, 'refresh_token' ),
-			)
-		);
-
-		register_rest_route(
-			$this->namespace,
 			'token/revoke',
 			array(
 				'methods'  => 'POST',
@@ -133,18 +124,18 @@ class Simple_Jwt_Authentication_Rest {
 	}
 
 	/**
-	* Creates a new UUID to track the token. Attempts to generate the UUID using
-	* the WP built-in method first and falls back to ramsey/uuid
-	*
-	* @since 1.2
-	* @return String UUID
-	*/
+	 * Creates a new UUID to track the token. Attempts to generate the UUID using
+	 * the WP built-in method first and falls back to ramsey/uuid
+	 *
+	 * @since 1.2
+	 * @return String UUID
+	 */
 	private function generate_uuid() {
 		if ( function_exists( 'wp_generate_uuid4' ) ) {
-			//Use the built in UUID generator
+			// Use the built in UUID generator
 			return wp_generate_uuid4();
 		} else {
-			//Old version of WP, use a different UUID generator
+			// Old version of WP, use a different UUID generator
 			return Uuid::uuid4()->toString();
 		}
 	}
@@ -186,10 +177,10 @@ class Simple_Jwt_Authentication_Rest {
 			);
 		}
 
-		// Valid credentials, the user exists create the according Token.
+		// Valid credentials, the user exists create the Token.
 		$issued_at  = time();
 		$not_before = apply_filters( 'jwt_auth_not_before', $issued_at );
-		$expire     = apply_filters( 'jwt_auth_expire', $issued_at + ( DAY_IN_SECONDS * 14 ), $issued_at, $user );
+		$expire     = apply_filters( 'jwt_auth_expire', $issued_at + ( DAY_IN_SECONDS * 90 ), $issued_at, $user );
 		$uuid       = $this->generate_uuid();
 
 		$token = array(
@@ -250,7 +241,7 @@ class Simple_Jwt_Authentication_Rest {
 		 * normal call ex. wp-admin/.* return the user.
 		 *
 		 * @since 1.2.3
-		 **/
+		 */
 		$rest_api_slug = rest_get_url_prefix();
 		$valid_api_uri = strpos( $_SERVER['REQUEST_URI'], $rest_api_slug );
 		if ( ! $valid_api_uri ) {
@@ -378,6 +369,7 @@ class Simple_Jwt_Authentication_Rest {
 			}
 
 			$valid_token = false;
+
 			// Loop through and check wether we have the current token uuid in the users meta.
 			foreach ( $jwt_data as $key => $token_data ) {
 				if ( $token_data['uuid'] === $token->uuid ) {
@@ -406,10 +398,19 @@ class Simple_Jwt_Authentication_Rest {
 				return $token;
 			}
 			// If the output is true return an answer to the request to show it.
+
+			// calulating the difference in timestamps.
+			$diff = $token->iat - time();
+
+			// 1 day = 24 hours
+			// 24 * 60 * 60 = 86400 seconds
+			$days = ceil( abs( $diff / 86400 ) );
+
 			return array(
 				'code' => 'jwt_auth_valid_token',
 				'data' => array(
-					'status' => 200,
+					'status'  => 200,
+					'refresh' => $days >= 45 ? $this->refresh_token( $token ) : false,
 				),
 			);
 		} catch ( Exception $e ) {
@@ -430,13 +431,7 @@ class Simple_Jwt_Authentication_Rest {
 	 *
 	 * @return mixed Either a WP_Error or an object with a JWT token.
 	 */
-	public function refresh_token() {
-		//Check if the token is valid and get user information
-		$token = $this->validate_token( false );
-
-		if ( is_wp_error( $token ) ) {
-			return $token;
-		}
+	public function refresh_token( $token ) {
 
 		// Get the Secret Key
 		$secret_key = Simple_Jwt_Authentication_Api::get_key();
@@ -452,10 +447,10 @@ class Simple_Jwt_Authentication_Rest {
 
 		$user = new WP_User( $token->data->user->id );
 
-		// The user exists create the according Token.
+		// The user exists create the Token.
 		$issued_at  = time();
 		$not_before = apply_filters( 'jwt_auth_not_before', $issued_at );
-		$expire     = apply_filters( 'jwt_auth_expire', $issued_at + ( DAY_IN_SECONDS * 14 ), $issued_at, $user );
+		$expire     = apply_filters( 'jwt_auth_expire', $issued_at + ( DAY_IN_SECONDS * 90 ), $issued_at, $user );
 		$uuid       = wp_generate_uuid4();
 
 		$token = array(
@@ -584,11 +579,10 @@ class Simple_Jwt_Authentication_Rest {
 			);
 		}
 
-		// redefining user_login ensures we return the right case in the email
+		// redefining user_login ensures we return the right case in the email.
 		$user_login = $user_data->user_login;
 		$user_email = $user_data->user_email;
 
-		do_action( 'retreive_password', $user_login );  // Misspelled and deprecated
 		do_action( 'retrieve_password', $user_login );
 
 		$allow = apply_filters( 'allow_password_reset', true, $user_data->ID );
@@ -613,7 +607,7 @@ class Simple_Jwt_Authentication_Rest {
 
 		$key = get_password_reset_key( $user_data );
 
-		$message  = __( 'Someone requested that the password be reset for the following account:' ) . "\r\n\r\n";
+		$message = __( 'Someone requested that the password be reset for the following account:' ) . "\r\n\r\n";
 		// $message .= network_home_url( '/' ) . "\r\n\r\n";
 		// translators: %s is the users login name.
 		$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
@@ -621,7 +615,7 @@ class Simple_Jwt_Authentication_Rest {
 		$message .= __( 'To reset your password, click the following link and open the SMP app:' ) . "\r\n\r\n";
 		// $message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
 
-		$message .= '<a href="https://smpmedicaretracker.org/reset/' . $key . '/' . rawurlencode( $user_login ). '">Click this link to reset password</a>';
+		$message .= '<a href="https://smpmedicaretracker.org/reset/' . $key . '/' . rawurlencode( $user_login ) . '">Click this link to reset password</a>';
 
 		if ( is_multisite() ) {
 			$blogname = $GLOBALS['current_site']->site_name;
@@ -673,7 +667,7 @@ class Simple_Jwt_Authentication_Rest {
 		}
 		/** Try to authenticate the user with the passed credentials*/
 		$user = get_user_by( 'login', $activation['user_login'] );
-		
+
 		/** If the authentication fails return a error*/
 		if ( is_wp_error( $user ) ) {
 			$error_code = $user->get_error_code();
@@ -689,7 +683,7 @@ class Simple_Jwt_Authentication_Rest {
 		// Valid credentials, the user exists create the according Token.
 		$issued_at  = time();
 		$not_before = apply_filters( 'jwt_auth_not_before', $issued_at );
-		$expire     = apply_filters( 'jwt_auth_expire', $issued_at + ( DAY_IN_SECONDS * 14 ), $issued_at, $user );
+		$expire     = apply_filters( 'jwt_auth_expire', $issued_at + ( DAY_IN_SECONDS * 90 ), $issued_at, $user );
 		$uuid       = $this->generate_uuid();
 
 		$token = array(

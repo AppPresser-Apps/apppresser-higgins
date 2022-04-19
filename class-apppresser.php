@@ -10,7 +10,6 @@ defined( 'ABSPATH' ) || exit;
  */
 class AppPresser {
 
-
 	/**
 	 * Main AppPresser Instance.
 	 *
@@ -59,6 +58,7 @@ class AppPresser {
 	 */
 	public function includes() {
 		require_once APPPRESSER_DIR . '/includes/functions.php';
+		require_once APPPRESSER_DIR . '/includes/endpoints.php';
 	}
 
 	/**
