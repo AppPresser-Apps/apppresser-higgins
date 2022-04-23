@@ -20,13 +20,23 @@ function appp_register_routes() {
 		)
 	);
 
+	register_rest_route(
+		'apppresser',
+		'meta',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'appp_user_meta',
+		)
+	);
+
 }
 add_action( 'rest_api_init', 'appp_register_routes' );
 
 /**
  * Open Weather API Data.
- *
- * @return void
+ * 
+ * @param WP_Rest_Request $request
+ * @return object
  */
 function appp_one_call( $request ) {
 
@@ -35,12 +45,8 @@ function appp_one_call( $request ) {
 	$location = $request->get_param( 'location' );
 	$unit     = $request->get_param( 'unit' );
 
-	error_log( print_r( $request->get_params(), true ) );
-
 	if ( ! empty( $location ) ) {
 		$geo = appp_opw_geo( $location );
-
-		error_log( print_r( $geo, true ) );
 
 		if ( is_array( $geo ) ) {
 			$lat = $geo[0]->lat;
@@ -53,12 +59,16 @@ function appp_one_call( $request ) {
 	$response = wp_remote_get( $url );
 	$body     = wp_remote_retrieve_body( $response );
 
-	error_log( print_r( $url, true ) );
-
 	return json_decode( $body );
 
 }
 
+/**
+ * Fetch openweather geo data and return response.
+ *
+ * @param string $location
+ * @return object
+ */
 function appp_opw_geo( $location = '' ) {
 
 	$url = 'https://api.openweathermap.org/geo/1.0/direct?q=' . $location . '&limit=1&appid=' . OPW_KEY;
@@ -66,7 +76,26 @@ function appp_opw_geo( $location = '' ) {
 	$response = wp_remote_get( $url );
 	$body     = wp_remote_retrieve_body( $response );
 
-	error_log( print_r( $body, true ) );
-
 	return json_decode( $body );
+}
+
+/**
+ * Update each user meta key / value.
+ *
+ * @param WP_Rest_Request $request
+ * @return void
+ */
+function appp_user_meta( $request ) {
+
+	$meta    = $request->get_param( 'meta' );
+	$user_id = get_current_user_id();
+
+	if ( 0 !== $user_id ) {
+		foreach ( $meta as $key => $value ) {
+			$update = update_user_meta( $user_id, $key, $value );
+		}
+	}
+
+	return $update;
+
 }
