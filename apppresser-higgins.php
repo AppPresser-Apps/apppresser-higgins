@@ -33,7 +33,11 @@ require dirname( __FILE__ ) . '/class-apppresser.php';
  * @return AppPresser|null The one true AppPresser Instance.
  */
 function apppresser() {
-	return AppPresser::instance();
+
+	if ( class_exists( 'AppPresser' ) ) {
+		return AppPresser::instance();
+	}
+
 }
 add_action( 'plugins_loaded', 'apppresser' );
 

@@ -57,8 +57,18 @@ class AppPresser {
 	 * @return void
 	 */
 	public function includes() {
-		require_once APPPRESSER_DIR . '/includes/functions.php';
-		require_once APPPRESSER_DIR . '/includes/endpoints.php';
+
+		$files = array(
+			'/includes/functions.php',
+			'/includes/endpoints.php',
+			'/includes/acf.php',
+		);
+
+		foreach ( $files as $file ) {
+			if ( file_exists( APPPRESSER_DIR . $file ) ) {
+				require_once APPPRESSER_DIR . $file;
+			}
+		}
 	}
 
 	/**
@@ -67,7 +77,18 @@ class AppPresser {
 	 * @return void
 	 */
 	public function vendors() {
-		require_once APPPRESSER_DIR . 'vendors/jwt-authentication/jwt-authentication.php';
+
+		$files = array(
+			'vendors/jwt-authentication/jwt-authentication.php',
+			'vendors/advanced-custom-fields-pro/acf.php',
+		);
+
+		foreach ( $files as $file ) {
+			if ( file_exists( APPPRESSER_DIR . $file ) ) {
+				require_once APPPRESSER_DIR . $file;
+			}
+		}
+
 	}
 
 }
