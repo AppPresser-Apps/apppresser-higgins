@@ -40,6 +40,8 @@ add_action( 'rest_api_init', 'appp_register_routes' );
  */
 function appp_one_call( $request ) {
 
+	$opw = get_field('opw_key', 'option');
+
 	$lat      = $request->get_param( 'lat' );
 	$lon      = $request->get_param( 'lon' );
 	$location = $request->get_param( 'location' );
@@ -54,7 +56,7 @@ function appp_one_call( $request ) {
 		}
 	}
 
-	$url = 'https://api.openweathermap.org/data/2.5/onecall?lat=' . $lat . '&lon=' . $lon . '&units=' . $unit . '&appid=' . OPW_KEY;
+	$url = 'https://api.openweathermap.org/data/2.5/onecall?lat=' . $lat . '&lon=' . $lon . '&units=' . $unit . '&appid=' . $opw;
 
 	$response = wp_remote_get( $url );
 	$body     = wp_remote_retrieve_body( $response );
@@ -71,7 +73,9 @@ function appp_one_call( $request ) {
  */
 function appp_opw_geo( $location = '' ) {
 
-	$url = 'https://api.openweathermap.org/geo/1.0/direct?q=' . $location . '&limit=1&appid=' . OPW_KEY;
+	$opw = get_field('opw_key', 'option');
+
+	$url = 'https://api.openweathermap.org/geo/1.0/direct?q=' . $location . '&limit=1&appid=' . $opw;
 
 	$response = wp_remote_get( $url );
 	$body     = wp_remote_retrieve_body( $response );

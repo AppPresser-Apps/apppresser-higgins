@@ -30,6 +30,7 @@ class AppPresser {
 			$instance = new AppPresser();
 			$instance->vendors();
 			$instance->includes();
+			$instance->load();
 		}
 
 		// Always return the instance.
@@ -56,11 +57,12 @@ class AppPresser {
 	 *
 	 * @return void
 	 */
-	public function includes() {
+	private function includes() {
 
 		$files = array(
 			'/includes/functions.php',
 			'/includes/endpoints.php',
+			'/includes/class-options.php',
 			'/includes/acf.php',
 		);
 
@@ -72,14 +74,15 @@ class AppPresser {
 	}
 
 	/**
-	 * Include vendors
+	 * Include vendor dependencies.
 	 *
 	 * @return void
 	 */
-	public function vendors() {
+	private function vendors() {
 
 		$files = array(
 			'vendors/jwt-authentication/jwt-authentication.php',
+			'vendors/apppresser-onesignal/apppresser-onesignal.php',
 			'vendors/advanced-custom-fields-pro/acf.php',
 		);
 
@@ -89,6 +92,17 @@ class AppPresser {
 			}
 		}
 
+	}
+
+	/**
+	 * Class instantiation method.
+	 *
+	 * @return void
+	 */
+	private function load() {
+		if ( class_exists( 'AppPresserOptions' ) ) {
+			AppPresserOptions::instance();
+		}
 	}
 
 }
