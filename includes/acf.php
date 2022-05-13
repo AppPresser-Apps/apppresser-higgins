@@ -40,7 +40,16 @@ function appp_push_notification_send_hook( $post_id ) {
 		error_log( print_r( $url, true ) );
 		error_log( print_r( $send_to, true ) );
 
-		AppPresser\OneSignal\appsig_send_message( $message, $title, $sub_title, array() );
+		if ( 'all' === $send_to ) {
+			AppPresser\OneSignal\appsig_send_message( $message, $title, $sub_title, array() );
+		} else {
+
+			$options = array(
+				'users' => array(),
+			);
+
+			AppPresser\OneSignal\send_message_to_device( $message, $header, $subtitle, $options );
+		}
 	}
 }
 add_action( 'acf/save_post', 'appp_push_notification_send_hook' );

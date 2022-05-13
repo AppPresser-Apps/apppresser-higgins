@@ -113,6 +113,10 @@ class API {
 			'subtitle'                  => array(
 				'en' => $subtitle,
 			),
+			'ios_attachments'           => array(
+				'id1' => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
+			),
+			'big_picture'               => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
 		);
 
 		$args = array(
