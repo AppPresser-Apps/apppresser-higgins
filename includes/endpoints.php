@@ -17,6 +17,7 @@ function appp_register_routes() {
 		array(
 			'methods'  => 'GET',
 			'callback' => 'appp_one_call',
+			'permission_callback' => '__return_true',
 		)
 	);
 
@@ -26,6 +27,7 @@ function appp_register_routes() {
 		array(
 			'methods'  => 'POST',
 			'callback' => 'appp_user_meta',
+			'permission_callback' => '__return_true',
 		)
 	);
 

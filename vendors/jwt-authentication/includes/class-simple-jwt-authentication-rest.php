@@ -81,6 +81,7 @@ class Simple_Jwt_Authentication_Rest {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'generate_token' ),
+				'permission_callback' => '__return_true',
 			)
 		);
 
@@ -90,6 +91,7 @@ class Simple_Jwt_Authentication_Rest {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'validate_token' ),
+				'permission_callback' => '__return_true',
 			)
 		);
 
@@ -99,6 +101,7 @@ class Simple_Jwt_Authentication_Rest {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'revoke_token' ),
+				'permission_callback' => '__return_true',
 			)
 		);
 
@@ -108,6 +111,7 @@ class Simple_Jwt_Authentication_Rest {
 			array(
 				'methods'  => 'POST',
 				'callback' => array( $this, 'reset_password' ),
+				'permission_callback' => '__return_true',
 			)
 		);
 	}

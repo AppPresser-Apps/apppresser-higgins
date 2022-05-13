@@ -101,9 +101,11 @@ class API {
 	 * @return mixed          API Response;
 	 */
 	public function send_message_to_device( string $message, string $header, string $subtitle, array $options = array() ) {
+
 		$body = array(
 			'app_id'                    => $this->app_id,
 			'include_external_user_ids' => $options['users'] ?? array(),
+			'channel_for_external_user_ids' => 'push',
 			'contents'                  => array(
 				'en' => $message,
 			),

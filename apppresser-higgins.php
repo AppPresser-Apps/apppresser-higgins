@@ -39,7 +39,7 @@ function apppresser() {
 	}
 
 }
-add_action( 'plugins_loaded', 'apppresser', 999 );
+add_action( 'plugins_loaded', 'apppresser' );
 
 
 
