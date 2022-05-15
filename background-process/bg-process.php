@@ -28,12 +28,20 @@ class App_Push_Process extends WP_Background_Process {
 		// $this->really_long_running_task();
 		$this->log( $item );
 
-		$options = array(
-			'tag'   => $item['send_to'],
-			'image' => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
-		);
+		switch ( $item['send_to'] ) {
+			case 'all':
+				AppPresser\OneSignal\appsig_send_message( $item['message'], $item['title'], $item['sub_title'], array() );
+				break;
 
-		AppPresser\OneSignal\appsig_send_message_to_tag( $item['message'], $item['title'], $item['sub_title'], $options );
+			default:
+				$options = array(
+					'tag'   => $item['send_to'],
+					'image' => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
+				);
+
+				AppPresser\OneSignal\appsig_send_message_to_tag( $item['message'], $item['title'], $item['sub_title'], $options );
+				break;
+		}
 
 		return false;
 	}

@@ -38,6 +38,16 @@ class App_Push_Background_Processing {
 
 		if ( 'apppresser_page_acf-options-push-notifications' === $screen->id ) {
 
+			$check = get_field( 'onesignal_check_to_send', 'option' );
+
+			error_log( print_r( $check, true ) );
+
+			if ( 'send' !== $check[0] ) {
+				return;
+			}
+
+			$page = get_field( 'onesignal_open_page', 'option' );
+
 			$message = array(
 				'title'     => get_field( 'onesignal_title', 'option' ),
 				'sub_title' => get_field( 'onesignal_sub_title', 'option' ),
@@ -45,6 +55,7 @@ class App_Push_Background_Processing {
 				'image'     => get_field( 'onesignal_image', 'option' ),
 				'url'       => get_field( 'onesignal_launch_url', 'option' ),
 				'send_to'   => get_field( 'onesignal_send_to', 'option' ),
+				'open_page' => $page ? '/member-portal/' . $page->post_name : null,
 			);
 
 			$this->process_all->push_to_queue( $message );

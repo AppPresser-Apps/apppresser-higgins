@@ -28,10 +28,7 @@ function appsig_send_message( string $message, string $header, string $subtitle,
 
 	if ( empty( $options ) ) {
 		$response = $api_class->send_message( $message, $header, $subtitle );
-	} else {
-		$response = $api_class->send_message_to_device( $message, $header, $subtitle, $options );
-	}
-
+	} 
 }
 
 function appsig_send_message_to_tag( string $message, string $header, string $subtitle, array $options ) {
