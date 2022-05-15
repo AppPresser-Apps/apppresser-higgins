@@ -47,9 +47,62 @@ class API {
 	 * Sends a push notificiation using the OneSignal API.
 	 *
 	 * @param string $message The message to send.
-	 * @param rray   $options Options for sending the message.
+	 * @param array   $options Options for sending the message.
 	 * @return mixed          API Response;
 	 */
+	public function send_message_to_tag( string $message, string $header, string $subtitle, array $options = array() ) {
+
+		$body = array(
+			'app_id'          => $this->app_id,
+			'filters'         => array(
+				array(
+					'field'    => 'tag',
+					'key'      => $options['tag'],
+					'relation' => 'exists',
+				),
+			),
+			'contents'        => array(
+				'en' => $message,
+			),
+			'headings'        => array(
+				'en' => $header,
+			),
+			'subtitle'        => array(
+				'en' => $subtitle,
+			),
+			'ios_attachments' => array(
+				'id1' => $options['image'],
+			),
+			'big_picture'     => $options['image'],
+		);
+
+		$args = array(
+			'timeout'     => 60,
+			'redirection' => 5,
+			'blocking'    => true,
+			'httpversion' => '1.0',
+			'sslverify'   => false,
+			'data_format' => 'body',
+			'headers'     => array(
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Basic ' . $this->rest_api_key,
+			),
+			'body'        => wp_json_encode( $body ),
+		);
+
+		$response = wp_remote_post( self::ONESIGNAL_ENDPOINT_URL, $args );
+		$code     = $response['response']['code'] ?? 404;
+
+		return 200 === $code;
+	}
+
+		/**
+		 * Sends a push notificiation using the OneSignal API.
+		 *
+		 * @param string $message The message to send.
+		 * @param array   $options Options for sending the message.
+		 * @return mixed          API Response;
+		 */
 	public function send_message( string $message, string $header, string $subtitle, array $options = array() ) {
 
 		$body = array(
@@ -103,22 +156,22 @@ class API {
 	public function send_message_to_device( string $message, string $header, string $subtitle, array $options = array() ) {
 
 		$body = array(
-			'app_id'                    => $this->app_id,
-			'include_external_user_ids' => $options['users'] ?? array(),
+			'app_id'                        => $this->app_id,
+			'include_external_user_ids'     => $options['users'] ?? array(),
 			'channel_for_external_user_ids' => 'push',
-			'contents'                  => array(
+			'contents'                      => array(
 				'en' => $message,
 			),
-			'headings'                  => array(
+			'headings'                      => array(
 				'en' => $header,
 			),
-			'subtitle'                  => array(
+			'subtitle'                      => array(
 				'en' => $subtitle,
 			),
-			'ios_attachments'           => array(
+			'ios_attachments'               => array(
 				'id1' => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
 			),
-			'big_picture'               => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
+			'big_picture'                   => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
 		);
 
 		$args = array(
