@@ -58,7 +58,7 @@ class AppPresserOptions {
 	 * @return void
 	 */
 	public function load() {
-		add_action( 'init', array( $this, 'add_options_page' ), 999 );
+		add_action( 'acf/init', array( $this, 'add_options_page' ) );
 	}
 
 	/**
@@ -82,15 +82,15 @@ class AppPresserOptions {
 			)
 		);
 
-		acf_add_options_sub_page(
-			array(
-				'page_title'  => 'Push Notifications',
-				'menu_title'  => 'Push Notifications',
-				'parent_slug' => $options['menu_slug'],
-				'capability'  => 'manage_options',
-				'redirect'    => false,
-			)
-		);
+		// acf_add_options_sub_page(
+		// 	array(
+		// 		'page_title'  => 'Push Notifications',
+		// 		'menu_title'  => 'Push Notifications',
+		// 		'parent_slug' => $options['menu_slug'],
+		// 		'capability'  => 'manage_options',
+		// 		'redirect'    => false,
+		// 	)
+		// );
 
 		acf_add_options_sub_page(
 			array(
@@ -107,3 +107,20 @@ class AppPresserOptions {
 
 
 }
+
+/**
+ * Undocumented function
+ *
+ * @return void
+ */
+function appp_register_my_custom_submenu_page() {
+	add_submenu_page(
+		'appp-general-settings',
+		'Push Notifications',
+		'Push Notifications',
+		'manage_options',
+		'edit.php?post_type=push_notification',
+		false
+	);
+}
+add_action( 'admin_menu', 'appp_register_my_custom_submenu_page', 105 );

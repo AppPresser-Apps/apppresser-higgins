@@ -62,6 +62,7 @@ class AppPresser {
 		$files = array(
 			'/includes/functions.php',
 			'/includes/endpoints.php',
+			'/includes/push-post-type.php',
 			'/includes/class-options.php',
 			'/includes/acf.php',
 			'/background-process/class-push-process.php',

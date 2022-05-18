@@ -11,7 +11,8 @@ class App_Push_Background_Processing {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'acf/save_post', array( $this, 'appp_push_notification_send_hook' ) );
+		add_action( 'draft_to_publish', array( $this, 'appp_push_notification_send_hook' ) );
+		add_action( 'future_to_publish', array( $this, 'appp_push_notification_send_hook' ) );
 	}
 
 	/**
@@ -33,34 +34,27 @@ class App_Push_Background_Processing {
 
 	}
 
-	public function appp_push_notification_send_hook( $post_id ) {
-		$screen = get_current_screen();
+	public function appp_push_notification_send_hook( $post ) {
 
-		if ( 'apppresser_page_acf-options-push-notifications' === $screen->id ) {
+		//error_log( print_r( $post, true ) );
 
-			$check = get_field( 'onesignal_check_to_send', 'option' );
+		if ( isset( $post ) && 'push_notification' === $post->post_type ) {
 
-			error_log( print_r( $check, true ) );
+				$page = get_field( 'onesignal_open_page', $post->ID );
 
-			if ( 'send' !== $check[0] ) {
-				return;
-			}
+				$message = array(
+					'title'     => get_field( 'onesignal_title', $post->ID ),
+					'sub_title' => get_field( 'onesignal_sub_title', $post->ID ),
+					'message'   => get_field( 'onesignal_message', $post->ID ),
+					'image'     => get_field( 'onesignal_image', $post->ID ),
+					'url'       => get_field( 'onesignal_launch_url', $post->ID ),
+					'send_to'   => get_field( 'onesignal_send_to', $post->ID ),
+					'open_page' => $page ? '/member-portal/' . $page->post_name : null,
+				);
 
-			$page = get_field( 'onesignal_open_page', 'option' );
+				$this->process_all->push_to_queue( $message );
 
-			$message = array(
-				'title'     => get_field( 'onesignal_title', 'option' ),
-				'sub_title' => get_field( 'onesignal_sub_title', 'option' ),
-				'message'   => get_field( 'onesignal_message', 'option' ),
-				'image'     => get_field( 'onesignal_image', 'option' ),
-				'url'       => get_field( 'onesignal_launch_url', 'option' ),
-				'send_to'   => get_field( 'onesignal_send_to', 'option' ),
-				'open_page' => $page ? '/member-portal/' . $page->post_name : null,
-			);
-
-			$this->process_all->push_to_queue( $message );
-
-			$this->process_all->save()->dispatch();
+				$this->process_all->save()->dispatch();
 
 		}
 
