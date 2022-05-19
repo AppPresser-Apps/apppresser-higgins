@@ -15,8 +15,8 @@ function appp_register_routes() {
 		'opw',
 		'onecall',
 		array(
-			'methods'  => 'GET',
-			'callback' => 'appp_one_call',
+			'methods'             => 'GET',
+			'callback'            => 'appp_one_call',
 			'permission_callback' => '__return_true',
 		)
 	);
@@ -25,8 +25,8 @@ function appp_register_routes() {
 		'apppresser',
 		'meta',
 		array(
-			'methods'  => 'POST',
-			'callback' => 'appp_user_meta',
+			'methods'             => 'POST',
+			'callback'            => 'appp_user_meta',
 			'permission_callback' => '__return_true',
 		)
 	);
@@ -36,13 +36,13 @@ add_action( 'rest_api_init', 'appp_register_routes' );
 
 /**
  * Open Weather API Data.
- * 
+ *
  * @param WP_Rest_Request $request
  * @return object
  */
 function appp_one_call( $request ) {
 
-	$opw = get_field('opw_key', 'option');
+	$opw = get_field( 'openweather_api_key', 'option' );
 
 	$lat      = $request->get_param( 'lat' );
 	$lon      = $request->get_param( 'lon' );
@@ -75,7 +75,7 @@ function appp_one_call( $request ) {
  */
 function appp_opw_geo( $location = '' ) {
 
-	$opw = get_field('opw_key', 'option');
+	$opw = get_field( 'openweather_api_key', 'option' );
 
 	$url = 'https://api.openweathermap.org/geo/1.0/direct?q=' . $location . '&limit=1&appid=' . $opw;
 

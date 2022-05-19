@@ -33,11 +33,11 @@ require_once APPPRESSER_ONESIGNAL_DIR . 'includes/class-api.php';
 require_once APPPRESSER_ONESIGNAL_DIR . 'includes/functions.php';
 require_once APPPRESSER_ONESIGNAL_DIR . 'includes/hooks.php';
 
-if ( is_admin() ) {
-	$options_page = new AppPresser\OneSignal\Options();
+// if ( is_admin() ) {
+// 	$options_page = new AppPresser\OneSignal\Options();
 
-	// Register the options page if necessary.
-	if ( $options_page->can_register() ) {
-		$options_page->register();
-	}
-}
+// 	// Register the options page if necessary.
+// 	if ( $options_page->can_register() ) {
+// 		$options_page->register();
+// 	}
+// }

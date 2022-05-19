@@ -1,6 +1,6 @@
 <?php
-
-// use AppPresser\OneSignal;
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Hide acf menu unless defined in wp-config.

@@ -17,30 +17,32 @@ namespace AppPresser\OneSignal;
  */
 function appsig_send_message( string $message, string $header, string $subtitle, array $options = array() ) {
 
-	$settings = get_option( 'appp_onesignal' );
+	$appid  = get_field( 'onesignal_app_id', 'options' );
+	$apikey = get_field( 'onesignal_api_key', 'options' );
 
-	if ( empty( $settings['onesignal_app_id'] ) || empty( $settings['onesignal_rest_api_key'] ) ) {
+	if ( ! $appid || ! $apikey ) {
 		return;
 	}
 
 	// Attempt to send the message through the OneSignal API.
-	$api_class = new API( $settings['onesignal_app_id'], $settings['onesignal_rest_api_key'] );
+	$api_class = new API( $appid, $apikey );
 
 	if ( empty( $options ) ) {
 		$response = $api_class->send_message( $message, $header, $subtitle );
-	} 
+	}
 }
 
 function appsig_send_message_to_tag( string $message, string $header, string $subtitle, array $options ) {
 
-	$settings = get_option( 'appp_onesignal' );
+	$appid  = get_field( 'onesignal_app_id', 'options' );
+	$apikey = get_field( 'onesignal_api_key', 'options' );
 
-	if ( empty( $settings['onesignal_app_id'] ) || empty( $settings['onesignal_rest_api_key'] ) ) {
+	if ( ! $appid || ! $apikey ) {
 		return;
 	}
 
 	// Attempt to send the message through the OneSignal API.
-	$api_class = new API( $settings['onesignal_app_id'], $settings['onesignal_rest_api_key'] );
+	$api_class = new API( $appid, $apikey );
 
 	$response = $api_class->send_message_to_tag( $message, $header, $subtitle, $options );
 

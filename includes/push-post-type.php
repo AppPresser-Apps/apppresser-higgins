@@ -1,6 +1,12 @@
 <?php
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
-// Register Custom Post Type
+/**
+ * Register Custom Post Type
+ *
+ * @return void
+ */
 function appp_push_notification() {
 
 	$labels = array(

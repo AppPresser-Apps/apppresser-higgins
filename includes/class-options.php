@@ -83,24 +83,15 @@ class AppPresserOptions {
 		);
 
 		// acf_add_options_sub_page(
-		// 	array(
-		// 		'page_title'  => 'Push Notifications',
-		// 		'menu_title'  => 'Push Notifications',
-		// 		'parent_slug' => $options['menu_slug'],
-		// 		'capability'  => 'manage_options',
-		// 		'redirect'    => false,
-		// 	)
+		// array(
+		// 'page_title'  => 'Push Notifications',
+		// 'menu_title'  => 'Push Notifications',
+		// 'parent_slug' => $options['menu_slug'],
+		// 'capability'  => 'manage_options',
+		// 'redirect'    => false,
+		// )
 		// );
 
-		acf_add_options_sub_page(
-			array(
-				'page_title'  => 'Open Weather',
-				'menu_title'  => 'Open Weather',
-				'parent_slug' => $options['menu_slug'],
-				'capability'  => 'manage_options',
-				'redirect'    => false,
-			)
-		);
 
 	}
 
@@ -109,11 +100,11 @@ class AppPresserOptions {
 }
 
 /**
- * Undocumented function
+ * Add custom submenu post type page to AppPresser menu.
  *
  * @return void
  */
-function appp_register_my_custom_submenu_page() {
+function appp_register_push_submenu_page() {
 	add_submenu_page(
 		'appp-general-settings',
 		'Push Notifications',
@@ -123,4 +114,17 @@ function appp_register_my_custom_submenu_page() {
 		false
 	);
 }
-add_action( 'admin_menu', 'appp_register_my_custom_submenu_page', 105 );
+add_action( 'admin_menu', 'appp_register_push_submenu_page', 105 );
+
+/**
+ * Force change first submenu to Settings.
+ *
+ * @return void
+ */
+function appp_change_apppresser_submenu_label() {
+	global $submenu;
+	$submenu['appp-general-settings'][0][0] = 'Settings';
+
+	echo '';
+}
+add_action( 'admin_menu', 'appp_change_apppresser_submenu_label', 105 );

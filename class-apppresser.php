@@ -65,7 +65,7 @@ class AppPresser {
 			'/includes/push-post-type.php',
 			'/includes/class-options.php',
 			'/includes/acf.php',
-			'/background-process/class-push-process.php',
+			'/includes/push-process.php',
 		);
 
 		foreach ( $files as $file ) {
