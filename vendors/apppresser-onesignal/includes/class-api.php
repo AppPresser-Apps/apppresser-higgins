@@ -47,7 +47,7 @@ class API {
 	 * Sends a push notificiation using the OneSignal API.
 	 *
 	 * @param string $message The message to send.
-	 * @param array   $options Options for sending the message.
+	 * @param array  $options Options for sending the message.
 	 * @return mixed          API Response;
 	 */
 	public function send_message_to_tag( string $message, string $header, string $subtitle, array $options = array() ) {
@@ -74,6 +74,7 @@ class API {
 				'id1' => $options['image'],
 			),
 			'big_picture'     => $options['image'],
+			'data'            => $options['data'],
 		);
 
 		$args = array(
@@ -100,10 +101,12 @@ class API {
 		 * Sends a push notificiation using the OneSignal API.
 		 *
 		 * @param string $message The message to send.
-		 * @param array   $options Options for sending the message.
+		 * @param array  $options Options for sending the message.
 		 * @return mixed          API Response;
 		 */
 	public function send_message( string $message, string $header, string $subtitle, array $options = array() ) {
+
+		error_log( print_r( $options, true ) );
 
 		$body = array(
 			'app_id'            => $this->app_id,
@@ -120,9 +123,10 @@ class API {
 				'en' => $subtitle,
 			),
 			'ios_attachments'   => array(
-				'id1' => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
+				'id1' => $options['image'],
 			),
-			'big_picture'       => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
+			'big_picture'       => $options['image'],
+			'data'              => $options['data'],
 		);
 
 		$args = array(

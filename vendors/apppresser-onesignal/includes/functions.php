@@ -27,12 +27,10 @@ function appsig_send_message( string $message, string $header, string $subtitle,
 	// Attempt to send the message through the OneSignal API.
 	$api_class = new API( $appid, $apikey );
 
-	if ( empty( $options ) ) {
-		$response = $api_class->send_message( $message, $header, $subtitle );
-	}
+	$response = $api_class->send_message( $message, $header, $subtitle, $options );
 }
 
-function appsig_send_message_to_tag( string $message, string $header, string $subtitle, array $options ) {
+function appsig_send_message_to_tag( string $message, string $header, string $subtitle, array $options = array() ) {
 
 	$appid  = get_field( 'onesignal_app_id', 'options' );
 	$apikey = get_field( 'onesignal_api_key', 'options' );
