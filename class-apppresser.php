@@ -86,6 +86,8 @@ class AppPresser {
 			'vendors/jwt-authentication/jwt-authentication.php',
 			'vendors/apppresser-onesignal/apppresser-onesignal.php',
 			'vendors/advanced-custom-fields-pro/acf.php',
+			'vendors/custom-fields/acf-hidden/acf-hidden.php',
+			'vendors/custom-fields/acf-randomid/acf-randomid.php',
 		);
 
 		foreach ( $files as $file ) {

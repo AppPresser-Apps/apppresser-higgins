@@ -31,6 +31,16 @@ function appp_register_routes() {
 		)
 	);
 
+	register_rest_route(
+		'apppresser',
+		'portal',
+		array(
+			'methods'             => 'GET',
+			'callback'            => 'appp_member_portal',
+			'permission_callback' => '__return_true',
+		)
+	);
+
 }
 add_action( 'rest_api_init', 'appp_register_routes' );
 
@@ -104,4 +114,9 @@ function appp_user_meta( $request ) {
 
 	return $update;
 
+}
+
+function appp_member_portal( $request ) {
+	$field = get_field( 'member_portal_section', 'options' );
+	return $field;
 }
