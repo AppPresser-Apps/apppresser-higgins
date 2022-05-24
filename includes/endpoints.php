@@ -116,7 +116,27 @@ function appp_user_meta( $request ) {
 
 }
 
+/**
+ * Stupid page builders!!!
+ * Have to process the elementor page data out of meta.
+ * One plus for Gutenburg is that it uses only the html content to store everything.
+ * This is significantly slowing the response from api. @Ryan
+ *
+ * @param WP_Rest_Request $request
+ * @return OBJECT
+ */
 function appp_member_portal( $request ) {
-	$field = get_field( 'member_portal_section', 'options' );
-	return $field;
+	$fields = get_field( 'member_portal_section', 'options' );
+
+	if ( class_exists( '\\Elementor\\Plugin' ) ) {
+		foreach ( $fields as $key => $field ) {
+			foreach ( $field['link_list'] as $post ) {
+				$elementor                     = \Elementor\Plugin::instance();
+				$content_elementor             = $elementor->frontend->get_builder_content( $post['content']->ID );
+				$post['content']->post_content = $content_elementor;
+			}
+		}
+	}
+
+	return $fields;
 }
