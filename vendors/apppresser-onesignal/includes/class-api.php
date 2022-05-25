@@ -172,10 +172,11 @@ class API {
 			'subtitle'                      => array(
 				'en' => $subtitle,
 			),
-			'ios_attachments'               => array(
-				'id1' => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
+			'ios_attachments'   => array(
+				'id1' => $options['image'],
 			),
-			'big_picture'                   => 'https://higginsstormchasing.com/wp-content/uploads/2021/10/AUS-Cyclone-Outlook-2122-scaled.jpg',
+			'big_picture'       => $options['image'],
+			'data'              => $options['data'],
 		);
 
 		$args = array(
