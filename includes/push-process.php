@@ -39,7 +39,7 @@ function appp_push_notification_send_hook( $post ) {
 			switch ( $message['send_to'] ) {
 
 				case 'all':
-					error_log( print_r( $message['send_to'], true ) );
+					error_log( print_r( $message, true ) );
 					AppPresser\OneSignal\appsig_send_message( $message['message'], $message['title'], $message['sub_title'], $options );
 					break;
 

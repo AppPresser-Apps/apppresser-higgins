@@ -14,7 +14,7 @@ function appp_acf_show_admin( $show ) {
 	if ( SHOW_ACF === true ) {
 		return true; // show it.
 	} else {
-		return true; // hide it.
+		return false; // hide it.
 	}
 }
 add_filter( 'acf/settings/show_admin', 'appp_acf_show_admin' );

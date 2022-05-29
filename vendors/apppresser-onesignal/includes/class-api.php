@@ -97,16 +97,14 @@ class API {
 		return 200 === $code;
 	}
 
-		/**
-		 * Sends a push notificiation using the OneSignal API.
-		 *
-		 * @param string $message The message to send.
-		 * @param array  $options Options for sending the message.
-		 * @return mixed          API Response;
-		 */
+	/**
+	 * Sends a push notificiation using the OneSignal API.
+	 *
+	 * @param string $message The message to send.
+	 * @param array  $options Options for sending the message.
+	 * @return mixed          API Response;
+	 */
 	public function send_message( string $message, string $header, string $subtitle, array $options = array() ) {
-
-		error_log( print_r( $options, true ) );
 
 		$body = array(
 			'app_id'            => $this->app_id,
@@ -126,7 +124,6 @@ class API {
 				'id1' => $options['image'],
 			),
 			'big_picture'       => $options['image'],
-			'data'              => $options['data'],
 		);
 
 		$args = array(
@@ -172,11 +169,11 @@ class API {
 			'subtitle'                      => array(
 				'en' => $subtitle,
 			),
-			'ios_attachments'   => array(
+			'ios_attachments'               => array(
 				'id1' => $options['image'],
 			),
-			'big_picture'       => $options['image'],
-			'data'              => $options['data'],
+			'big_picture'                   => $options['image'],
+			'data'                          => $options['data'],
 		);
 
 		$args = array(
