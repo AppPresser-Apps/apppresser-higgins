@@ -38,7 +38,7 @@ if ( ! is_admin() ) {
 /**
  * Add Page as post_type in the tag.php and archive.php files.
  *
- * @param [type] $wp_query
+ * @param WP_Query $wp_query
  * @return void
  */
 function appp_category_and_tag_archives( $wp_query ) {

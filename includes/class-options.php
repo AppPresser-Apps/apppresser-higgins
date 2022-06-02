@@ -82,17 +82,6 @@ class AppPresserOptions {
 			)
 		);
 
-		// acf_add_options_sub_page(
-		// array(
-		// 'page_title'  => 'Push Notifications',
-		// 'menu_title'  => 'Push Notifications',
-		// 'parent_slug' => $options['menu_slug'],
-		// 'capability'  => 'manage_options',
-		// 'redirect'    => false,
-		// )
-		// );
-
-
 	}
 
 
@@ -123,6 +112,7 @@ add_action( 'admin_menu', 'appp_register_push_submenu_page', 105 );
  */
 function appp_change_apppresser_submenu_label() {
 	global $submenu;
+	
 	$submenu['appp-general-settings'][0][0] = 'Settings';
 
 	echo '';

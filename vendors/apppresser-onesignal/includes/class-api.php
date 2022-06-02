@@ -101,7 +101,9 @@ class API {
 	 * Sends a push notificiation using the OneSignal API.
 	 *
 	 * @param string $message The message to send.
-	 * @param array  $options Options for sending the message.
+	 * @param string $header
+	 * @param string $subtitle
+	 * @param array $options Options for sending the message.
 	 * @return mixed          API Response;
 	 */
 	public function send_message( string $message, string $header, string $subtitle, array $options = array() ) {
@@ -145,13 +147,14 @@ class API {
 
 		return 200 === $code;
 	}
-
+	
 	/**
 	 * Sends a push notificiation to a specific device or devices using the OneSignal API.
 	 *
 	 * @param string $message The message to send.
-	 * @param string $header Message header.
-	 * @param array  $options Options for sending the message.
+	 * @param string $header
+	 * @param string $subtitle
+	 * @param array $options Options for sending the message.
 	 * @return mixed          API Response;
 	 */
 	public function send_message_to_device( string $message, string $header, string $subtitle, array $options = array() ) {

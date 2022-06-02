@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 
 
 /**
- * REgister API routes.
+ * Register API routes.
  *
  * @return void
  */

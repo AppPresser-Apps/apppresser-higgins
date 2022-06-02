@@ -1,21 +1,23 @@
 <?php
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 use AppPresser\OneSignal;
 
+/**
+ * Sends push notification on post publish.
+ *
+ * @param WP_Post $post
+ * @return void
+ */
 function appp_push_notification_send_hook( $post ) {
-
-	// error_log( print_r( $post, true ) );
 
 	if ( isset( $post ) && 'push_notification' === $post->post_type ) {
 
 			$launch_url = get_field( 'onesignal_launch_url', $post->ID );
 			$page       = get_field( 'onesignal_open_page', $post->ID );
 			$image      = get_field( 'onesignal_image', $post->ID );
-
-			// error_log( print_r( $launch_url, true ) );
-			// error_log( print_r( $page, true ) );
 
 			$message = array(
 				'title'     => get_field( 'onesignal_title', $post->ID ),
@@ -39,12 +41,10 @@ function appp_push_notification_send_hook( $post ) {
 			switch ( $message['send_to'] ) {
 
 				case 'all':
-					error_log( print_r( $message, true ) );
 					AppPresser\OneSignal\appsig_send_message( $message['message'], $message['title'], $message['sub_title'], $options );
 					break;
 
 				default:
-					error_log( print_r( 'default', true ) );
 					$options['tag']   = $message['send_to'];
 					$options['image'] = $message['image'];
 

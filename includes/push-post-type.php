@@ -3,7 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Register Custom Post Type
+ * Register push_notification Custom Post Type
  *
  * @return void
  */
