@@ -1,0 +1,196 @@
+{
+    "key": "group_627d5ada00969",
+    "title": "Push Notification",
+    "fields": [
+        {
+            "key": "field_627d5ae95b7c9",
+            "label": "Title",
+            "name": "onesignal_title",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_627d5b865b7ca",
+            "label": "Sub Title",
+            "name": "onesignal_sub_title",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_627d5b975b7cb",
+            "label": "Message",
+            "name": "onesignal_message",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_627d5bb25b7cc",
+            "label": "Image",
+            "name": "onesignal_image",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_627d5bf05b7ce",
+            "label": "Send To",
+            "name": "onesignal_send_to",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "all": "All Devices",
+                "general": "General Alerts",
+                "queensland": "Queensland",
+                "tas": "TAS, SA, WA & NT",
+                "nsw": "NSW, ACT & VIC",
+                "cyclones": "Tropical Lows & Cyclones",
+                "video": "Video Forecasts",
+                "subscribers": "Non Premium Subscribers",
+                "premium": "Premium Subscribers",
+                "[4000,4000]": "SE Brisbane"
+            },
+            "default_value": "all",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_628167e522718",
+            "label": "Launch Url",
+            "name": "onesignal_launch_url",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "none": "none",
+                "member-portal": "Member Portal"
+            },
+            "default_value": "none",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_6281618864caa",
+            "label": "Open Premium Page",
+            "name": "onesignal_open_page",
+            "type": "post_object",
+            "instructions": "Selected page will launch in app when push notification is opened.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_628167e522718",
+                        "operator": "==",
+                        "value": "member-portal"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "page"
+            ],
+            "taxonomy": [
+                "post_tag:app-premium"
+            ],
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "push_notification"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1654558543
+}
