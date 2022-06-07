@@ -19,8 +19,12 @@ function appp_acf_show_admin( $show ) {
 }
 add_filter( 'acf/settings/show_admin', 'appp_acf_show_admin' );
 
-
-
+/**
+ * Save acf json to plugin folder
+ *
+ * @param string $path
+ * @return string
+ */
 function appp_acf_json_save_point( $path ) {
 
 	// update path.
@@ -32,6 +36,12 @@ function appp_acf_json_save_point( $path ) {
 }
 add_filter( 'acf/settings/save_json', 'appp_acf_json_save_point' );
 
+/**
+ * Get acf json from plugin folder
+ *
+ * @param array $path
+ * @return array
+ */
 function appp_acf_json_load_point( $paths ) {
 
 	// remove original path (optional).
