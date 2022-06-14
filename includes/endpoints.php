@@ -126,17 +126,37 @@ function appp_user_meta( $request ) {
  * @return OBJECT
  */
 function appp_member_portal( $request ) {
-	$fields = get_field( 'member_portal_section', 'options' );
 
-	if ( class_exists( '\\Elementor\\Plugin' ) ) {
-		foreach ( $fields as $key => $field ) {
-			foreach ( $field['link_list'] as $post ) {
-				$elementor                     = \Elementor\Plugin::instance();
-				$content_elementor             = $elementor->frontend->get_builder_content( $post['content']->ID );
-				$post['content']->post_content = $content_elementor;
+	$member_portal_query_results = get_transient( 'member_portal_query_results' );
+
+	if ( false === $member_portal_query_results || empty( $member_portal_query_results ) ) {
+		// It wasn't there, so regenerate the data and save the transient
+
+		$fields = get_field( 'member_portal_section', 'options' );
+
+		if ( class_exists( '\\Elementor\\Plugin' ) ) {
+			foreach ( $fields as $key => $field ) {
+				foreach ( $field['link_list'] as $post ) {
+					$elementor                     = \Elementor\Plugin::instance();
+					$content_elementor             = $elementor->frontend->get_builder_content( $post['content']->ID );
+					$post['content']->post_content = $content_elementor;
+				}
 			}
 		}
+		set_transient( 'member_portal_query_results', $fields, 12 * HOUR_IN_SECONDS );
+	} else {
+		$fields = $member_portal_query_results;
 	}
 
 	return $fields;
 }
+
+/**
+ * Delete member portal transient when a page is edited.
+ *
+ * @return void
+ */
+function appp_edit_page_delete_transient() {
+    delete_transient( 'member_portal_query_results' );
+}
+add_action( 'edit_post', 'appp_edit_page_delete_transient' );
