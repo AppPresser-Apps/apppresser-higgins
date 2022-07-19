@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function appp_acf_show_admin( $show ) {
 
-	if ( SHOW_ACF === true ) {
+	if ( defined( 'SHOW_ACF' ) ) {
 		return true; // show it.
 	} else {
 		return false; // hide it.

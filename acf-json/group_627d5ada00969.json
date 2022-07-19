@@ -87,7 +87,7 @@
             "key": "field_627d5bf05b7ce",
             "label": "Send To",
             "name": "onesignal_send_to",
-            "type": "select",
+            "type": "checkbox",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -100,21 +100,62 @@
                 "all": "All Devices",
                 "general": "General Alerts",
                 "queensland": "Queensland",
-                "tas": "TAS, SA, WA & NT",
-                "nsw": "NSW, ACT & VIC",
-                "cyclones": "Tropical Lows & Cyclones",
-                "video": "Video Forecasts",
-                "subscribers": "Non Premium Subscribers",
-                "premium": "Premium Subscribers",
-                "[4000,4000]": "SE Brisbane"
+                "nsw": "New South Wales",
+                "vic": "Victoria",
+                "act": "Act",
+                "tas": "Tasmania",
+                "south-aus": "South Australia",
+                "west-aus": "Western Australia",
+                "south-territory": "Southern Territory",
+                "capricornia": "Capricornia",
+                "central-coast-whitsundays": "Central Coast & Whitsundays",
+                "central-highlands-coalfields": "Central Highlands & Coalfields",
+                "central-melbourne": "Central \/ Melbourne",
+                "central-tablelands": "Central Tablelands",
+                "central-west": "Central West",
+                "central-west-slopes-plains": "Central West Slopes & Plains",
+                "channel-country": "Channel Country",
+                "darling-downs-granite-belt": "Darling Downs & Granite Belt",
+                "east-gippsland": "East Gippsland",
+                "goldfields-flinders": "Northern Goldfields & Upper Flinders",
+                "gulf-country": "Gulf Country",
+                "herbert-burdekin": "Herbert & Lower Burdekin",
+                "hunter": "Hunter",
+                "illawarra": "Illawarra",
+                "lower-western": "Lower Western",
+                "mallee": "Mallee",
+                "maranoa-warrego": "Maranoa & Warrego",
+                "mid-north-coast": "Mid North Coast",
+                "north-central": "North Central",
+                "north-east": "North East",
+                "north-west": "North West",
+                "north-west-slopes-plains": "North West Slopes & Plains",
+                "northern-country": "Northern Country",
+                "northern-rivers": "Northern Rivers",
+                "northern-tablelands": "Northern Tablelands",
+                "peninsula": "Peninsula",
+                "riverina": "Riverina",
+                "snowy-mountains": "Snowy Mountains",
+                "south-coast": "South Coast",
+                "south-east-coast": "South East Coast",
+                "south-west": "South West",
+                "south-west-slopes": "South West Slopes",
+                "southern-tablelands": "Southern Tablelands",
+                "sydney-metro": "Sydney Metro",
+                "tropical-coast-tablelands": "North Tropical Coast & Tablelands",
+                "upper-western": "Upper Western",
+                "west-south-gippsland": "West & South Gippsland",
+                "wild-bay-burnett": "Wide Bay & Burnett",
+                "wimmera": "Wimmera"
             },
-            "default_value": "all",
-            "allow_null": 0,
-            "multiple": 0,
-            "ui": 0,
+            "allow_custom": 0,
+            "default_value": [
+                "all"
+            ],
+            "layout": "vertical",
+            "toggle": 0,
             "return_format": "value",
-            "ajax": 0,
-            "placeholder": ""
+            "save_custom": 0
         },
         {
             "key": "field_628167e522718",
@@ -131,7 +172,8 @@
             },
             "choices": {
                 "none": "none",
-                "member-portal": "Member Portal"
+                "member-portal": "Member Portal",
+                "custom": "Custom URL"
             },
             "default_value": "none",
             "allow_null": 0,
@@ -172,6 +214,30 @@
             "multiple": 0,
             "return_format": "object",
             "ui": 1
+        },
+        {
+            "key": "field_62d70dd6ff92b",
+            "label": "Custom URL",
+            "name": "onesignal_custom_url",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_628167e522718",
+                        "operator": "==",
+                        "value": "custom"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
         }
     ],
     "location": [
@@ -192,5 +258,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1654558543
+    "modified": 1658266933
 }

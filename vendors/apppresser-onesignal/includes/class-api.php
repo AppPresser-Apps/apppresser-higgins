@@ -53,29 +53,34 @@ class API {
 	public function send_message_to_tag( string $message, string $header, string $subtitle, array $options = array() ) {
 
 		$body = array(
-			'app_id'          => $this->app_id,
-			'filters'         => array(
-				array(
-					'field'    => 'tag',
-					'key'      => $options['tag'],
-					'relation' => 'exists',
-				),
-			),
-			'contents'        => array(
+			'app_id'   => $this->app_id,
+			'filters'  => $options['filters'],
+			'contents' => array(
 				'en' => $message,
 			),
-			'headings'        => array(
+			'headings' => array(
 				'en' => $header,
 			),
-			'subtitle'        => array(
+			'subtitle' => array(
 				'en' => $subtitle,
 			),
-			'ios_attachments' => array(
-				'id1' => $options['image'],
-			),
-			'big_picture'     => $options['image'],
-			'data'            => $options['data'],
 		);
+
+		if ( $options['image'] ) {
+			$body['ios_attachments'] = array(
+				'id1' => $options['image'],
+			);
+
+			$body['big_picture'] = $options['image'];
+		}
+
+		if ( ! empty( $options['data'] ) ) {
+			$body['data'] = $options['data'];
+		}
+
+		if ( $options['url'] ) {
+			$body['url'] = $options['url'];
+		}
 
 		$args = array(
 			'timeout'     => 60,
@@ -103,7 +108,7 @@ class API {
 	 * @param string $message The message to send.
 	 * @param string $header
 	 * @param string $subtitle
-	 * @param array $options Options for sending the message.
+	 * @param array  $options Options for sending the message.
 	 * @return mixed          API Response;
 	 */
 	public function send_message( string $message, string $header, string $subtitle, array $options = array() ) {
@@ -122,11 +127,23 @@ class API {
 			'subtitle'          => array(
 				'en' => $subtitle,
 			),
-			'ios_attachments'   => array(
-				'id1' => $options['image'],
-			),
-			'big_picture'       => $options['image'],
 		);
+
+		if ( $options['image'] ) {
+			$body['ios_attachments'] = array(
+				'id1' => $options['image'],
+			);
+
+			$body['big_picture'] = $options['image'];
+		}
+
+		if ( ! empty( $options['data'] ) ) {
+			$body['data'] = $options['data'];
+		}
+
+		if ( $options['url'] ) {
+			$body['url'] = $options['url'];
+		}
 
 		$args = array(
 			'timeout'     => 60,
@@ -147,14 +164,14 @@ class API {
 
 		return 200 === $code;
 	}
-	
+
 	/**
 	 * Sends a push notificiation to a specific device or devices using the OneSignal API.
 	 *
 	 * @param string $message The message to send.
 	 * @param string $header
 	 * @param string $subtitle
-	 * @param array $options Options for sending the message.
+	 * @param array  $options Options for sending the message.
 	 * @return mixed          API Response;
 	 */
 	public function send_message_to_device( string $message, string $header, string $subtitle, array $options = array() ) {
