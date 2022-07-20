@@ -130,8 +130,8 @@ function appp_member_portal( $request ) {
 	$member_portal_query_results = get_transient( 'member_portal_query_results' );
 
 	if ( false === $member_portal_query_results || empty( $member_portal_query_results ) ) {
-		// It wasn't there, so regenerate the data and save the transient
-
+		// It wasn't there, so regenerate the data and save the transient.
+		
 		$fields = get_field( 'member_portal_section', 'options' );
 
 		if ( class_exists( '\\Elementor\\Plugin' ) ) {
@@ -157,6 +157,6 @@ function appp_member_portal( $request ) {
  * @return void
  */
 function appp_edit_page_delete_transient() {
-    delete_transient( 'member_portal_query_results' );
+	delete_transient( 'member_portal_query_results' );
 }
 add_action( 'edit_post', 'appp_edit_page_delete_transient' );
