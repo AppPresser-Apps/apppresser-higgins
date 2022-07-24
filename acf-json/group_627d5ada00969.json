@@ -104,9 +104,9 @@
                 "vic": "Victoria",
                 "act": "Act",
                 "tas": "Tasmania",
+                "north-territory": "Northern Territory",
                 "south-aus": "South Australia",
                 "west-aus": "Western Australia",
-                "south-territory": "Southern Territory",
                 "capricornia": "Capricornia",
                 "central-coast-whitsundays": "Central Coast & Whitsundays",
                 "central-highlands-coalfields": "Central Highlands & Coalfields",
@@ -258,5 +258,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1658266933
+    "modified": 1658678969
 }
