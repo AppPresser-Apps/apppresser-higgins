@@ -1,6 +1,7 @@
 <?php
-
-// Exit if accessed directly.
+/**
+ * Exit if accessed directly.
+ */
 defined( 'ABSPATH' ) || exit;
 
 
@@ -117,10 +118,10 @@ function appp_user_meta( $request ) {
 }
 
 /**
- * Stupid page builders!!!
  * Have to process the elementor page data out of meta.
  * One plus for Gutenburg is that it uses only the html content to store everything.
- * This is significantly slowing the response from api. @Ryan
+ * This is significantly slowing the response from api. i've cached in transient but needs
+ * a cloudflare worker. @Ryan
  *
  * @param WP_Rest_Request $request
  * @return OBJECT

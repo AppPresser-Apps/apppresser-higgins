@@ -1,11 +1,11 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/advanced-custom-fields-pro/assets/src/js/pro/_acf-blocks.js":
 /*!*************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/pro/_acf-blocks.js ***!
   \*************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -14,9 +14,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
 
@@ -55,14 +55,6 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
 
   const blockTypes = {};
   /**
-   * Storage for known instances of ACF blocks.
-   *
-   * @since 5.12
-   * @var array
-   */
-
-  let acfBlocks = [];
-  /**
    * Returns a block type for the given name.
    *
    * @date	20/2/19
@@ -76,55 +68,12 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
     return blockTypes[name] || false;
   }
   /**
-   * Gets an ACF block by the provided clientId.
-   *
-   * @date 19/01/22
-   * @since 5.12
-   *
-   * @param string clientId
-   *
-   * @return array
-   */
-
-
-  function getBlockByClientId(clientId) {
-    return acfBlocks.filter(block => {
-      return block.clientId === clientId;
-    });
-  }
-  /**
-   * Returns any ACF blocks that are present in the Redux store/block editor.
-   *
-   * @date 18/01/22
-   * @since 5.12
-   *
-   * @return array
-   */
-
-
-  function getAcfBlocks() {
-    const parentBlocks = wp.data.select('core/block-editor').getBlocks();
-    parentBlocks.map(block => {
-      if (getBlockType(block.name) && !getBlockByClientId(block.clientId).length) {
-        acfBlocks.push(block);
-      }
-
-      const innerBlocks = wp.data.select('core/block-editor').getBlocks(block.clientId);
-      innerBlocks.map(innerBlock => {
-        if (getBlockType(innerBlock.name) && !getBlockByClientId(innerBlock.clientId).length) {
-          acfBlocks.push(innerBlock);
-        }
-      });
-    });
-    return acfBlocks;
-  }
-  /**
    * Returns true if the provided block is new.
    *
    * @date	31/07/2020
    * @since	5.9.0
    *
-   * @param	object props The block props (of which, the attributes properties is destructured)
+   * @param	{object} props The block props (of which, the attributes properties is destructured)
    * @return	bool
    */
 
@@ -142,9 +91,8 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
    * @date	31/07/2020
    * @since	5.9.0
    *
-   * @param	object props The block props (of which, the attributes and clientId properties are destructured)
-   *
-   * @return boolean
+   * @param	{object} props The block props (of which, the attributes and clientId properties are destructured)
+   * @return	bool
    */
 
 
@@ -153,7 +101,7 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
       attributes,
       clientId
     } = _ref2;
-    return !!getAcfBlocks().filter(block => block.attributes.id === attributes.id).filter(block => block.clientId !== clientId).length;
+    return !!getBlocks().filter(block => block.attributes.id === attributes.id).filter(block => block.clientId !== clientId).length;
   }
   /**
    * Returns true if a block (identified by client ID) is nested in a query loop block.
@@ -161,7 +109,7 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
    * @date 17/1/22
    * @since 5.12
    *
-   * @param string clientId A block client ID
+   * @param {string} clientId A block client ID
    * @return boolean
    */
 
@@ -399,22 +347,21 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
    * @date	27/2/19
    * @since	5.7.13
    *
-   * @param	object args An object of key=>value pairs used to filter results.
+   * @param	{object} args An object of key=>value pairs used to filter results.
    * @return	array.
    */
 
 
   function getBlocks(args) {
-    // Get all blocks (avoid deprecated warning).
-    let blocks = select('core/block-editor').getBlocks(); // Append innerBlocks.
+    let blocks = []; // Local function to recurse through all child blocks and add to the blocks array.
 
-    let i = 0;
+    const recurseBlocks = block => {
+      blocks.push(block);
+      select('core/block-editor').getBlocks(block.clientId).forEach(recurseBlocks);
+    }; // Trigger initial recursion for parent level blocks.
 
-    while (i < blocks.length) {
-      blocks = blocks.concat(blocks[i].innerBlocks);
-      i++;
-    } // Loop over args and filter.
 
+    select('core/block-editor').getBlocks().forEach(recurseBlocks); // Loop over args and filter.
 
     for (const k in args) {
       blocks = blocks.filter(_ref4 => {
@@ -427,7 +374,12 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
 
 
     return blocks;
-  } // Data storage for AJAX requests.
+  }
+  /**
+   * Storage for the AJAX queue.
+   *
+   * @const {array}
+   */
 
 
   const ajaxQueue = {};
@@ -435,7 +387,7 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
    * Storage for cached AJAX requests for block content.
    *
    * @since 5.12
-   * @var array
+   * @const {array}
    */
 
   const fetchCache = {};
@@ -735,7 +687,6 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
 
       if (isDuplicateBlock(props)) {
         attributes.id = acf.uniqid('block_');
-        acfBlocks = [];
         return;
       }
     }
@@ -1629,7 +1580,7 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
 /*!****************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/pro/_acf-jsx-names.js ***!
   \****************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   acf.jsxNameReplacements = {
@@ -1942,7 +1893,7 @@ const md5 = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
 /*!*****************************************!*\
   !*** ./node_modules/charenc/charenc.js ***!
   \*****************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 var charenc = {
   // UTF-8 encoding
@@ -1985,7 +1936,7 @@ module.exports = charenc;
 /*!*************************************!*\
   !*** ./node_modules/crypt/crypt.js ***!
   \*************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 (function() {
   var base64map
@@ -2091,7 +2042,7 @@ module.exports = charenc;
 /*!*****************************************!*\
   !*** ./node_modules/is-buffer/index.js ***!
   \*****************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 /*!
  * Determine if an object is a Buffer
@@ -2122,7 +2073,7 @@ function isSlowBuffer (obj) {
 /*!*********************************!*\
   !*** ./node_modules/md5/md5.js ***!
   \*********************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 (function(){
   var crypt = __webpack_require__(/*! crypt */ "./node_modules/crypt/crypt.js"),
@@ -2292,7 +2243,7 @@ function isSlowBuffer (obj) {
 /*!*********************************************!*\
   !*** ./node_modules/object-assign/index.js ***!
   \*********************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 /*
@@ -2393,7 +2344,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /*!*****************************************************!*\
   !*** ./node_modules/react/cjs/react.development.js ***!
   \*****************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 /** @license React v17.0.2
@@ -4737,7 +4688,7 @@ exports.version = ReactVersion;
 /*!*************************************!*\
   !*** ./node_modules/react/index.js ***!
   \*************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4753,12 +4704,12 @@ if (false) {} else {
 /*!*******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
   \*******************************************************************/
-/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ _defineProperty; }
+/* harmony export */   "default": () => (/* binding */ _defineProperty)
 /* harmony export */ });
 function _defineProperty(obj, key, value) {
   if (key in obj) {
@@ -4805,49 +4756,49 @@ function _defineProperty(obj, key, value) {
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
+(() => {
 "use strict";
 /*!****************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/pro/acf-pro-blocks.js ***!
@@ -4858,7 +4809,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _acf_blocks_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_acf-blocks.js */ "./src/advanced-custom-fields-pro/assets/src/js/pro/_acf-blocks.js");
 
 
-}();
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=acf-pro-blocks.js.map

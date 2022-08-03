@@ -1,6 +1,7 @@
 <?php
-
-// Exit if accessed directly.
+/**
+ * Exit if accessed directly.
+ */
 defined( 'ABSPATH' ) || exit;
 
 use AppPresser\OneSignal;
@@ -11,26 +12,29 @@ use AppPresser\OneSignal;
  * @param WP_Post $post
  * @return void
  */
-function appp_push_notification_send_hook( $post ) {
+function appp_push_notification_send_hook( $post_id ) {
 
-	if ( isset( $post ) && 'push_notification' === $post->post_type ) {
 
-			$launch_url = get_field( 'onesignal_launch_url', $post->ID );
-			$page       = get_field( 'onesignal_open_page', $post->ID );
-			$image      = get_field( 'onesignal_image', $post->ID );
+	if ( get_post_status( $post_id ) !== 'publish' ) {
+		return;
+	}
+
+	if ( 'push_notification' === get_post_type( $post_id ) ) {
+
+			$launch_url = get_field( 'onesignal_launch_url', $post_id );
+			$page       = get_field( 'onesignal_open_page', $post_id );
+			$image      = get_field( 'onesignal_image', $post_id );
 
 			$message = array(
-				'title'      => get_field( 'onesignal_title', $post->ID ),
-				'sub_title'  => get_field( 'onesignal_sub_title', $post->ID ),
-				'message'    => get_field( 'onesignal_message', $post->ID ),
+				'title'      => get_field( 'onesignal_title', $post_id ),
+				'sub_title'  => get_field( 'onesignal_sub_title', $post_id ),
+				'message'    => get_field( 'onesignal_message', $post_id ),
 				'image'      => $image,
-				'url'        => get_field( 'onesignal_launch_url', $post->ID ),
-				'send_to'    => get_field( 'onesignal_send_to', $post->ID ),
-				'custom_url' => get_field( 'onesignal_custom_url', $post->ID ),
+				'url'        => get_field( 'onesignal_launch_url', $post_id ),
+				'send_to'    => get_field( 'onesignal_send_to', $post_id ),
+				'custom_url' => get_field( 'onesignal_custom_url', $post_id ),
 				'open_page'  => $page ? "/{$launch_url}/{$page->post_name}" : null,
 			);
-
-			// error_log( print_r( $message, true ) );
 
 			$options = array(
 				'data'  => array(),
@@ -48,6 +52,10 @@ function appp_push_notification_send_hook( $post ) {
 						break;
 
 				}
+			}
+
+			if ( empty( $message['send_to'] ) ) {
+				return;
 			}
 
 			if ( in_array( 'all', $message['send_to'], true ) ) {
@@ -69,8 +77,13 @@ function appp_push_notification_send_hook( $post ) {
 
 				AppPresser\OneSignal\appsig_send_message_to_tag( $message['message'], $message['title'], $message['sub_title'], $options );
 			}
+
+			error_log( print_r( get_fields( $message ), true ) );
+			error_log( print_r( get_fields( $post_id ), true ) );
 	}
 
 }
-add_action( 'draft_to_publish', 'appp_push_notification_send_hook' );
-add_action( 'future_to_publish', 'appp_push_notification_send_hook' );
+add_action( 'acf/save_post', 'appp_push_notification_send_hook', 15 );
+
+// add_action( 'draft_to_publish', 'appp_push_notification_send_hook', 15 );
+add_action( 'future_to_publish', 'appp_push_notification_send_hook', 15 );

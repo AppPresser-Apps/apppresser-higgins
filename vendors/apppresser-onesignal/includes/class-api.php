@@ -141,7 +141,7 @@ class API {
 			$body['data'] = $options['data'];
 		}
 
-		if ( $options['url'] ) {
+		if ( isset( $options['url'] ) ) {
 			$body['url'] = $options['url'];
 		}
 

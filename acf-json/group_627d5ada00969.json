@@ -46,7 +46,7 @@
             "name": "onesignal_message",
             "type": "textarea",
             "instructions": "",
-            "required": 0,
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -89,7 +89,7 @@
             "name": "onesignal_send_to",
             "type": "checkbox",
             "instructions": "",
-            "required": 0,
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -258,5 +258,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1658678969
+    "modified": 1659534105
 }

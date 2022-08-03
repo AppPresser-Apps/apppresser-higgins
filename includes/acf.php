@@ -1,5 +1,7 @@
 <?php
-// Exit if accessed directly.
+/**
+ * Exit if accessed directly.
+ */
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -7,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
  * This is a requirement of the plugin license when included as a dependency.
  *
  * @param boolean $show
- * @return void
+ * @return boolean
  */
 function appp_acf_show_admin( $show ) {
 
@@ -39,7 +41,7 @@ add_filter( 'acf/settings/save_json', 'appp_acf_json_save_point' );
 /**
  * Get acf json from plugin folder
  *
- * @param array $path
+ * @param array $paths
  * @return array
  */
 function appp_acf_json_load_point( $paths ) {

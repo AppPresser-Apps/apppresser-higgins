@@ -110,7 +110,7 @@ add_action( 'admin_menu', 'appp_register_push_submenu_page', 105 );
  */
 function appp_change_apppresser_submenu_label() {
 	global $submenu;
-	
+
 	$submenu['appp-general-settings'][0][0] = 'Settings';
 
 	echo '';
