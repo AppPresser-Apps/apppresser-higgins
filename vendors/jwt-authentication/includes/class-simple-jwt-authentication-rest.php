@@ -410,13 +410,19 @@ class Simple_Jwt_Authentication_Rest {
 			// 24 * 60 * 60 = 86400 seconds
 			$days = ceil( abs( $diff / 86400 ) );
 
-			return array(
+			$data =  array(
 				'code' => 'jwt_auth_valid_token',
 				'data' => array(
 					'status'  => 200,
 					'refresh' => $days >= 45 ? $this->refresh_token( $token ) : false,
 				),
 			);
+
+			$user = new WP_User( $token->data->user->id );
+
+			return apply_filters( 'jwt_auth_token_before_dispatch', $data, $user );
+
+	
 		} catch ( Exception $e ) {
 			// Something is wrong trying to decode the token, send back the error.
 			return new WP_Error(

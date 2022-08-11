@@ -4,6 +4,8 @@
  */
 defined( 'ABSPATH' ) || exit;
 
+use AppPresser\OneSignal;
+
 /**
  * Add user meta to jwt api response.
  *
@@ -89,13 +91,18 @@ function appp_check_if_user_is_premium_auth( $data, $user ) {
 
 	/** If the sub authentication fails return a error*/
 	if ( ! $has_sub ) {
+		AppPresser\OneSignal\appsig_set_tags( $userid, '{"tags":{"has_subscription":""}}' );
 		return new WP_Error(
 			'jwt_no_sub',
 			'User has no access to this resource. Please manage account on website.',
 			array(
-				'status' => 403,
+				'status'           => 403,
+				'has_subscription' => false,
 			)
 		);
+	} else {
+		AppPresser\OneSignal\appsig_set_tags( $userid, '{"tags":{"has_subscription":"true"}}' );
+		$data['has_subscritpion'] = true;
 	}
 
 	return $data;

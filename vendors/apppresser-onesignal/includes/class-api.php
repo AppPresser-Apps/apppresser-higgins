@@ -44,6 +44,43 @@ class API {
 	}
 
 	/**
+	 * Set Onesignal tags for user
+	 *
+	 * @param string $user_id
+	 * @param object $tags
+	 * @return void
+	 */
+	public function set_tags( $user_id, $tags ) {
+
+		if ( ! $user_id || ! $this->app_id ) {
+			return;
+		}
+
+		$url = 'https://onesignal.com/api/v1/apps/' . $this->app_id . '/users/' . $user_id;
+
+		$args = array(
+			'method'      => 'PUT',
+			'timeout'     => 60,
+			'redirection' => 5,
+			'blocking'    => true,
+			'httpversion' => '1.0',
+			'sslverify'   => false,
+			'data_format' => 'body',
+			'headers'     => array(
+				'Accept'        => 'text/plain',
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Basic ' . $this->rest_api_key,
+			),
+			'body'        => $tags,
+		);
+
+		$response = wp_remote_post( $url, $args );
+		$code     = $response['response']['code'] ?? 404;
+
+		return 200 === $code;
+	}
+
+	/**
 	 * Sends a push notificiation using the OneSignal API.
 	 *
 	 * @param string $message The message to send.

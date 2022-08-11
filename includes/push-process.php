@@ -77,13 +77,29 @@ function appp_push_notification_send_hook( $post_id ) {
 
 				AppPresser\OneSignal\appsig_send_message_to_tag( $message['message'], $message['title'], $message['sub_title'], $options );
 			}
-
-			error_log( print_r( get_fields( $message ), true ) );
-			error_log( print_r( get_fields( $post_id ), true ) );
 	}
 
 }
 add_action( 'acf/save_post', 'appp_push_notification_send_hook', 15 );
-
-// add_action( 'draft_to_publish', 'appp_push_notification_send_hook', 15 );
 add_action( 'future_to_publish', 'appp_push_notification_send_hook', 15 );
+
+/**
+ * Hook into woo subscriton status change and then update onesignal has_subscription tag for user.
+ *
+ * @param object $data woo subscription object
+ * @param string $to
+ * @param string $from
+ * @return void
+ */
+function appp_update_onesignal_subscription_tag( $data, $to, $from ) {
+
+	$userid = $data->get_user_id();
+
+	if ( 'active' === $to ) {
+		AppPresser\OneSignal\appsig_set_tags( $userid, '{"tags":{"has_subscription":"true"}}' );
+
+	} else {
+		AppPresser\OneSignal\appsig_set_tags( $userid, '{"tags":{"has_subscription":""}}' );
+	}
+}
+add_action( 'woocommerce_subscription_status_updated', 'appp_update_onesignal_subscription_tag', 10, 3 );
