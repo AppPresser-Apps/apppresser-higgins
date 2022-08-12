@@ -91,7 +91,6 @@ function appp_check_if_user_is_premium_auth( $data, $user ) {
 
 	/** If the sub authentication fails return a error*/
 	if ( ! $has_sub ) {
-		AppPresser\OneSignal\appsig_set_tags( $userid, '{"tags":{"has_subscription":""}}' );
 		return new WP_Error(
 			'jwt_no_sub',
 			'User has no access to this resource. Please manage account on website.',
@@ -101,8 +100,7 @@ function appp_check_if_user_is_premium_auth( $data, $user ) {
 			)
 		);
 	} else {
-		AppPresser\OneSignal\appsig_set_tags( $userid, '{"tags":{"has_subscription":"true"}}' );
-		$data['has_subscritpion'] = true;
+		$data['has_subscription'] = true;
 	}
 
 	return $data;
