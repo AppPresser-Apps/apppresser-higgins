@@ -102,4 +102,4 @@ function appp_update_onesignal_subscription_tag( $data, $to, $from ) {
 		AppPresser\OneSignal\appsig_set_tags( $userid, '{"tags":{"has_subscription":""}}' );
 	}
 }
-add_action( 'woocommerce_subscription_status_updated', 'appp_update_onesignal_subscription_tag', 10, 3 );
+//add_action( 'woocommerce_subscription_status_updated', 'appp_update_onesignal_subscription_tag', 10, 3 );
