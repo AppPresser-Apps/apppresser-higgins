@@ -10,7 +10,7 @@ on:
       sync:
         description: "File synchronization"
         required: true
-        default: "delta"
+        default: "full"
 
 jobs:
   deploy-master:
@@ -29,6 +29,6 @@ jobs:
           remote-protocol: "sftp"
           remote-host: ${{ secrets.SERVER }}
           remote-user: ${{ secrets.USERNAME }}
-          remote-password: ${{ secrets.PASWORD }}
+          remote-password: ${{ secrets.PASSWORD }}
           remote-port: ${{ secrets.PORT }}
           remote-path: ${{ secrets.REMOTE_PATH }}
