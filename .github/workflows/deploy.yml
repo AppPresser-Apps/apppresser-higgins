@@ -29,5 +29,5 @@ jobs:
           remote-protocol: "sftp"
           remote-host: ${{ secrets.SERVER }}
           remote-user: ${{ secrets.USERNAME }}
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote-password: ${{ secrets.PASWORD }}
           remote-path: ${{ secrets.REMOTE_PATH }}
