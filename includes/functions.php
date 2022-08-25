@@ -87,10 +87,13 @@ add_filter( 'jwt_auth_token_before_dispatch', 'appp_add_postcode_auth', 10, 2 );
  */
 function appp_check_if_user_is_premium_auth( $data, $user ) {
 
-	$has_sub = wcs_user_has_subscription( (int) $user->data->ID, 12075, 'active' );
+	$has_sub     = wcs_user_has_subscription( (int) $user->data->ID, 12075, 'active' );
+	$has_pending = wcs_user_has_subscription( (int) $user->data->ID, 12075, 'pending-cancel' );
 
 	/** If the sub authentication fails return a error*/
-	if ( ! $has_sub ) {
+	if ( $has_sub || $has_pending ) {
+		$data['has_subscription'] = true;
+	} else {
 		return new WP_Error(
 			'jwt_no_sub',
 			'User has no access to this resource. Please manage account on website.',
@@ -99,8 +102,6 @@ function appp_check_if_user_is_premium_auth( $data, $user ) {
 				'has_subscription' => false,
 			)
 		);
-	} else {
-		$data['has_subscription'] = true;
 	}
 
 	return $data;
