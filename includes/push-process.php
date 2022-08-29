@@ -14,7 +14,6 @@ use AppPresser\OneSignal;
  */
 function appp_push_notification_send_hook( $post_id ) {
 
-
 	if ( get_post_status( $post_id ) !== 'publish' ) {
 		return;
 	}
@@ -75,6 +74,8 @@ function appp_push_notification_send_hook( $post_id ) {
 					$options['filters'][] = array( 'operator' => 'OR' );
 				}
 
+				$options['filters'] = array_slice( $options['filters'], 0, -1 );
+
 				AppPresser\OneSignal\appsig_send_message_to_tag( $message['message'], $message['title'], $message['sub_title'], $options );
 			}
 	}
@@ -102,4 +103,4 @@ function appp_update_onesignal_subscription_tag( $data, $to, $from ) {
 		AppPresser\OneSignal\appsig_set_tags( $userid, '{"tags":{"has_subscription":""}}' );
 	}
 }
-//add_action( 'woocommerce_subscription_status_updated', 'appp_update_onesignal_subscription_tag', 10, 3 );
+// add_action( 'woocommerce_subscription_status_updated', 'appp_update_onesignal_subscription_tag', 10, 3 );
