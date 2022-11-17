@@ -69,7 +69,7 @@ function appp_one_call( $request ) {
 		}
 	}
 
-	$url = 'https://api.openweathermap.org/data/2.5/onecall?lat=' . $lat . '&lon=' . $lon . '&units=' . $unit . '&appid=' . $opw;
+	$url = 'https://api.openweathermap.org/data/3.0/onecall?lat=' . $lat . '&lon=' . $lon . '&units=' . $unit . '&appid=' . $opw;
 
 	$response = wp_remote_get( $url );
 	$body     = wp_remote_retrieve_body( $response );
